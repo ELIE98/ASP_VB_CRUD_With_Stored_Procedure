@@ -10,6 +10,7 @@ Public Class HomeController
 
         Dim Fournisseurs As New List(Of FournisseurModel)
         Fournisseurs = GetAll().AsEnumerable.Select(Function(x) New FournisseurModel With {
+        .ID = x("ID"),
         .ADRESSE_SOCIALE = x("ADRESSE_SOCIALE"),
         .TYPE_FOURNISSEUR = x("TYPE_FOURNISSEUR"),
         .NOM = x("NOM"),
@@ -52,7 +53,7 @@ Public Class HomeController
         End Try
 
     End Function
-
+    'delete action
     Function Delete(id As Integer) As ActionResult
         Dim db As SqlClient.SqlConnection = OPEN_CONNEXION()
         Dim commande As SqlCommand = db.CreateCommand()
@@ -60,6 +61,32 @@ Public Class HomeController
         commande.Parameters.AddWithValue("@id", id)
         commande.CommandText = "DeleteFourniseur"
         commande.ExecuteNonQuery()
+        Return RedirectToAction("Index")
+    End Function
+    ' Edit Get
+    Function Edit() As ActionResult
+
+        Return View()
+
+    End Function
+
+    ' Edit action post
+    <AcceptVerbs(HttpVerbs.Post)>
+    Function Edit(fournisseur As FournisseurModel) As ActionResult
+        Dim db As SqlClient.SqlConnection = OPEN_CONNEXION()
+        Dim commande As SqlCommand = db.CreateCommand()
+        commande.CommandType = CommandType.StoredProcedure
+        commande.Parameters.AddWithValue("@id", fournisseur.ID)
+        commande.Parameters.AddWithValue("@type", fournisseur.TYPE_FOURNISSEUR)
+        commande.Parameters.AddWithValue("@adresse", fournisseur.ADRESSE_SOCIALE)
+        commande.Parameters.AddWithValue("@entreprise", fournisseur.NOM_ENTREPRISE)
+        commande.Parameters.AddWithValue("@nom", fournisseur.NOM)
+        commande.Parameters.AddWithValue("@prenom", fournisseur.PRENOM)
+        commande.Parameters.AddWithValue("@telephone", fournisseur.TELEPHONE)
+
+        commande.CommandText = "UpdateFournisseur"
+        commande.ExecuteNonQuery()
+
         Return RedirectToAction("Index")
     End Function
 

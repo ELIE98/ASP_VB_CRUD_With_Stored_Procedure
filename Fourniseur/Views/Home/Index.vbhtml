@@ -26,11 +26,14 @@ End Code
                     <td>@item.NOM</td>
                     <td>@item.PRENOM</td>
                     <td>@item.TELEPHONE</td>
+                @*@code 
+                    MsgBox(item.ID.ToString)
+                End Code*@
 
-                   <td>@Html.ActionLink("Editer", "Edit", "Home", New With {.id = item.ID, .class = "btn btn-warning glyphicon glyphicon-pencil"})</td>
-                   <td>@Html.ActionLink("Supprimer", "Delete", "Home", New With {.id = item.ID, .class = "btn btn-danger glyphicon glyphicon-trash"})</td>
+                   <td>@Html.ActionLink("Editer", "Edit", "Home", New With {.id = item.ID}, New With {.class = "btn btn-warning glyphicon glyphicon-pencil"})</td>
+                   <td>@Html.ActionLink("Supprimer", "Delete", "Home", New With {.id = item.ID}, New With {.class = "btn btn-danger glyphicon glyphicon-trash"})</td>
                 </tr>
-               Next
+                    Next
                
             </tbody>
         </table>
