@@ -53,6 +53,8 @@ Public Class HomeController
         End Try
 
     End Function
+
+
     'delete action
     Function Delete(id As Integer) As ActionResult
         Dim db As SqlClient.SqlConnection = OPEN_CONNEXION()
@@ -63,10 +65,24 @@ Public Class HomeController
         commande.ExecuteNonQuery()
         Return RedirectToAction("Index")
     End Function
-    ' Edit Get
-    Function Edit() As ActionResult
 
-        Return View()
+    ' Edit Get
+    Function Edit(id As Integer) As ActionResult
+        'Dim db As SqlClient.SqlConnection = OPEN_CONNEXION()
+        'Dim commande As SqlCommand = db.CreateCommand()
+        'commande.CommandType = CommandType.StoredProcedure
+        Dim fournisseur = New FournisseurModel
+        fournisseur = GetAll().AsEnumerable().Select(Function(x) New FournisseurModel With {
+        .ID = x("ID"),
+        .ADRESSE_SOCIALE = x("ADRESSE_SOCIALE"),
+        .TYPE_FOURNISSEUR = x("TYPE_FOURNISSEUR"),
+        .NOM = x("NOM"),
+        .NOM_ENTREPRISE = x("NOM_ENTREPRISE"),
+        .PRENOM = x("PRENOM"),
+        .TELEPHONE = x("TELEPHONE")
+        }).Where(Function(x) x.ID = id).FirstOrDefault()
+
+        Return View(fournisseur)
 
     End Function
 
@@ -90,11 +106,13 @@ Public Class HomeController
         Return RedirectToAction("Index")
     End Function
 
+
     Function About() As ActionResult
         ViewData("Message") = "Your application description page."
 
         Return View()
     End Function
+
 
     Function Contact() As ActionResult
         ViewData("Message") = "Your contact page."
@@ -110,6 +128,19 @@ Public Class HomeController
         Dim commande As SqlCommand = db.CreateCommand()
         commande.CommandType = CommandType.StoredProcedure
         commande.CommandText = "getAllFournisseurFromDb"
+
+        data.Load(commande.ExecuteReader())
+        Return data
+    End Function
+
+    'recuperation dun item
+    Public Function GetByID() As DataTable
+        Dim data As DataTable
+        data = New DataTable
+        Dim db As SqlClient.SqlConnection = OPEN_CONNEXION()
+        Dim commande As SqlCommand = db.CreateCommand()
+        commande.CommandType = CommandType.StoredProcedure
+        commande.CommandText = "getFournisseurByID"
 
         data.Load(commande.ExecuteReader())
         Return data
