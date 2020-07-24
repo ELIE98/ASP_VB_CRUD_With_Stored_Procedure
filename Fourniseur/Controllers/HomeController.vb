@@ -3,7 +3,7 @@ Imports System.Collections.Generic
 
 Public Class HomeController
     Inherits System.Web.Mvc.Controller
-
+    'Get All
     Function Index() As ActionResult
 
 
