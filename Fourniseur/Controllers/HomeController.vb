@@ -6,10 +6,9 @@ Public Class HomeController
 
     Function Index() As ActionResult
 
-        'Procedé de recuperation du datable en liste
 
-        Dim Fournisseurs As New List(Of FournisseurModel)
-        Fournisseurs = GetAll().AsEnumerable.Select(Function(x) New FournisseurModel With {
+        Dim fournisseurs = New List(Of FournisseurModel)
+        fournisseurs = FOURNISSEUR_SELECT(choix:="ALL").AsEnumerable.Select(Function(x) New FournisseurModel With {
         .ID = x("ID"),
         .ADRESSE_SOCIALE = x("ADRESSE_SOCIALE"),
         .TYPE_FOURNISSEUR = x("TYPE_FOURNISSEUR"),
@@ -20,14 +19,14 @@ Public Class HomeController
         }).ToList
 
 
-        Return View(Fournisseurs)
+
+
+        Return View(fournisseurs)
     End Function
 
     'Add action
 
     Function Add() As ActionResult
-
-
         Return View()
     End Function
 
@@ -35,18 +34,16 @@ Public Class HomeController
     <AcceptVerbs(HttpVerbs.Post)>
     Function Add(fournisseur As FournisseurModel) As ActionResult
         Try
-            Dim db As SqlClient.SqlConnection = OPEN_CONNEXION()
-            Dim commande As SqlCommand = db.CreateCommand()
-            commande.CommandType = CommandType.StoredProcedure
-            commande.Parameters.AddWithValue("@type", fournisseur.TYPE_FOURNISSEUR)
-            commande.Parameters.AddWithValue("@adresse", fournisseur.ADRESSE_SOCIALE)
-            commande.Parameters.AddWithValue("@entreprise", fournisseur.NOM_ENTREPRISE)
-            commande.Parameters.AddWithValue("@nom", fournisseur.NOM)
-            commande.Parameters.AddWithValue("@prenom", fournisseur.PRENOM)
-            commande.Parameters.AddWithValue("@telephone", fournisseur.TELEPHONE)
+            FOURNISSEUR_INSERT(
+                choix:="INSERT",
+                type:=fournisseur.TYPE_FOURNISSEUR,
+                nom:=fournisseur.NOM,
+                prenom:=fournisseur.PRENOM,
+                entreprise:=fournisseur.NOM_ENTREPRISE,
+                telephone:=fournisseur.TELEPHONE,
+                adresse:=fournisseur.ADRESSE_SOCIALE
+                )
 
-            commande.CommandText = "AddFournisseur"
-            commande.ExecuteNonQuery()
             Return RedirectToAction("Index")
         Catch
             Return View()
@@ -57,22 +54,18 @@ Public Class HomeController
 
     'delete action
     Function Delete(id As Integer) As ActionResult
-        Dim db As SqlClient.SqlConnection = OPEN_CONNEXION()
-        Dim commande As SqlCommand = db.CreateCommand()
-        commande.CommandType = CommandType.StoredProcedure
-        commande.Parameters.AddWithValue("@id", id)
-        commande.CommandText = "DeleteFourniseur"
-        commande.ExecuteNonQuery()
+
+        'Delete This User
+        FOURNISSEUR_INSERT(id:=id, choix:="DELETE")
+
         Return RedirectToAction("Index")
     End Function
 
     ' Edit Get
     Function Edit(id As Integer) As ActionResult
-        'Dim db As SqlClient.SqlConnection = OPEN_CONNEXION()
-        'Dim commande As SqlCommand = db.CreateCommand()
-        'commande.CommandType = CommandType.StoredProcedure
-        Dim fournisseur = New FournisseurModel
-        fournisseur = GetAll().AsEnumerable().Select(Function(x) New FournisseurModel With {
+
+        Dim fournisseur = New FournisseurModel()
+        fournisseur = FOURNISSEUR_SELECT(choix:="GETBYID", id:=id).AsEnumerable.Select(Function(x) New FournisseurModel With {
         .ID = x("ID"),
         .ADRESSE_SOCIALE = x("ADRESSE_SOCIALE"),
         .TYPE_FOURNISSEUR = x("TYPE_FOURNISSEUR"),
@@ -89,19 +82,16 @@ Public Class HomeController
     ' Edit action post
     <AcceptVerbs(HttpVerbs.Post)>
     Function Edit(fournisseur As FournisseurModel) As ActionResult
-        Dim db As SqlClient.SqlConnection = OPEN_CONNEXION()
-        Dim commande As SqlCommand = db.CreateCommand()
-        commande.CommandType = CommandType.StoredProcedure
-        commande.Parameters.AddWithValue("@id", fournisseur.ID)
-        commande.Parameters.AddWithValue("@type", fournisseur.TYPE_FOURNISSEUR)
-        commande.Parameters.AddWithValue("@adresse", fournisseur.ADRESSE_SOCIALE)
-        commande.Parameters.AddWithValue("@entreprise", fournisseur.NOM_ENTREPRISE)
-        commande.Parameters.AddWithValue("@nom", fournisseur.NOM)
-        commande.Parameters.AddWithValue("@prenom", fournisseur.PRENOM)
-        commande.Parameters.AddWithValue("@telephone", fournisseur.TELEPHONE)
-
-        commande.CommandText = "UpdateFournisseur"
-        commande.ExecuteNonQuery()
+        FOURNISSEUR_INSERT(
+            choix:="UPDATE",
+            id:=fournisseur.ID,
+            adresse:=fournisseur.ADRESSE_SOCIALE,
+            type:=fournisseur.TYPE_FOURNISSEUR,
+            nom:=fournisseur.NOM,
+            entreprise:=fournisseur.NOM_ENTREPRISE,
+            prenom:=fournisseur.PRENOM,
+            telephone:=fournisseur.TELEPHONE
+        )
 
         Return RedirectToAction("Index")
     End Function
@@ -120,29 +110,5 @@ Public Class HomeController
         Return View()
     End Function
 
-    'Fonction de récuperation des data de la BD via stored procedure !! 
-    Public Function GetAll() As DataTable
-        Dim data As DataTable
-        data = New DataTable
-        Dim db As SqlClient.SqlConnection = OPEN_CONNEXION()
-        Dim commande As SqlCommand = db.CreateCommand()
-        commande.CommandType = CommandType.StoredProcedure
-        commande.CommandText = "getAllFournisseurFromDb"
 
-        data.Load(commande.ExecuteReader())
-        Return data
-    End Function
-
-    'recuperation dun item
-    Public Function GetByID() As DataTable
-        Dim data As DataTable
-        data = New DataTable
-        Dim db As SqlClient.SqlConnection = OPEN_CONNEXION()
-        Dim commande As SqlCommand = db.CreateCommand()
-        commande.CommandType = CommandType.StoredProcedure
-        commande.CommandText = "getFournisseurByID"
-
-        data.Load(commande.ExecuteReader())
-        Return data
-    End Function
 End Class

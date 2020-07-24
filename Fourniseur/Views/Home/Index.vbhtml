@@ -5,9 +5,9 @@ End Code
 
 <div class="container">
     <h4 class="text-center">Liste item</h4>
-    @Html.ActionLink("Ajouter", "Add", "Home", New With {.class = "btn btn-success glyphicon glyphicon-plus"})
+    @Html.ActionLink("Ajouter", "Add", "Home", New With {.class = "btn btn-success glyphicon glyphicon-plus "})
     <div class="row ">
-        <table class="table">
+        <table class="table mt-4">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Type fournisseur</th>
@@ -15,7 +15,10 @@ End Code
                     <th scope="col">Entreprise</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Prenom</th>
-                    <th scope="col">Telephone</th></tr>
+                    <th scope="col">Telephone</th>
+                    <th scope="col">Editer</th>
+                    <th scope="col">Supprimer</th>
+                </tr>
             </thead>
             <tbody>
                @For Each item In Model
