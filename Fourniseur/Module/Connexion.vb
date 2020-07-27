@@ -8,7 +8,7 @@ Module Connexion
     '        cnx.ConnectionString = ConfigurationManager.AppSettings("DBConnString").ToString + "User=sa;Password=123;Database=" + p_bdname
     '        Try
 
-    '            cnx.Open()
+    '            cnx.Open
     '            MsgBox("bd connected")
     '        Catch ex As Exception
     '            MsgBox("erreur de connexion : " + ex.ToString)

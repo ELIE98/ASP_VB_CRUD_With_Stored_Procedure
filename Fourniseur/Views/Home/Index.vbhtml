@@ -1,11 +1,16 @@
 ﻿@ModelType IEnumerable(Of FournisseurModel)
+
 @Code
     ViewData("Title") = "Home Page"
 End Code
 
 <div class="container">
     <h4 class="text-center">Liste item</h4>
-    @Html.ActionLink("Ajouter", "Add", "Home", New With {.class = "btn btn-success glyphicon glyphicon-plus "})
+    @Html.ActionLink("Ajouter", "Edit", "Home", New With {.class = "btn btn-success glyphicon glyphicon-plus "})
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" id="btn_submit">
+       <i class="glyphicon glyphicon-plus"></i>
+        Add
+    </button>
     <div class="row ">
         <table class="table mt-4">
             <thead class="thead-dark">
@@ -40,7 +45,33 @@ End Code
                
             </tbody>
         </table>
-
+       
        
     </div>
-</div>
+    
+    <div id="afficheModal">
+
+    </div>
+   @*@Html.Action("Edit", "Home")*@
+               
+@Section Scripts
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $('#btn_submit').on('click', function () {
+            //alert($('#ID').val());
+            $.ajax({
+                url: "@Url.Action("Modal", "Home")",
+
+                type: 'GET',
+
+                //data: { id: $('#ID').val() }
+            }).done(function (result) {
+                alert(result);
+                $('#afficheModal').html(result);
+                $('#staticBackdrop').modal({ backdrop: 'static' }, 'show');
+            });
+        });
+
+      
+    </script>
+End Section

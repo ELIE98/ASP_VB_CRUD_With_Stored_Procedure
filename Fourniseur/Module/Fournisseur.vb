@@ -14,7 +14,7 @@ Module Fournisseur
 
 
         Dim db As SqlClient.SqlConnection = OPEN_CONNEXION()
-        Dim commande As SqlCommand = db.CreateCommand()
+        Dim commande As SqlCommand = db.CreateCommand
         commande.CommandType = CommandType.StoredProcedure
         commande.Parameters.AddWithValue("@id", id)
         commande.Parameters.AddWithValue("@choix", choix)
@@ -36,14 +36,14 @@ Module Fournisseur
         Dim data As DataTable
         data = New DataTable
         Dim db As SqlClient.SqlConnection = OPEN_CONNEXION()
-        Dim commande As SqlCommand = db.CreateCommand()
+        Dim commande As SqlCommand = db.CreateCommand
         commande.CommandType = CommandType.StoredProcedure
         commande.Parameters.AddWithValue("@id", id)
         commande.Parameters.AddWithValue("@choix", choix)
         commande.CommandText = "FOURNISSEUR_SELECT"
 
-        'commande.ExecuteNonQuery()
-        data.Load(commande.ExecuteReader())
+        'commande.ExecuteNonQuery
+        data.Load(commande.ExecuteReader)
         Return data
         'Return Nothing
 

@@ -11,7 +11,7 @@ Public Class HomeController
         fournisseurs = FOURNISSEUR_SELECT(choix:="ALL").AsEnumerable.Select(Function(x) New FournisseurModel With {
         .ID = x("ID"),
         .ADRESSE_SOCIALE = x("ADRESSE_SOCIALE"),
-        .TYPE_FOURNISSEUR = x("TYPE_FOURNISSEUR"),
+        .TYPE_FOURNISSEUR = x("LIBELLE"),
         .NOM = x("NOM"),
         .NOM_ENTREPRISE = x("NOM_ENTREPRISE"),
         .PRENOM = x("PRENOM"),
@@ -24,32 +24,7 @@ Public Class HomeController
         Return View(fournisseurs)
     End Function
 
-    'Add action
 
-    Function Add() As ActionResult
-        Return View()
-    End Function
-
-    'post Add action
-    <AcceptVerbs(HttpVerbs.Post)>
-    Function Add(fournisseur As FournisseurModel) As ActionResult
-        Try
-            FOURNISSEUR_INSERT(
-                choix:="INSERT",
-                type:=fournisseur.TYPE_FOURNISSEUR,
-                nom:=fournisseur.NOM,
-                prenom:=fournisseur.PRENOM,
-                entreprise:=fournisseur.NOM_ENTREPRISE,
-                telephone:=fournisseur.TELEPHONE,
-                adresse:=fournisseur.ADRESSE_SOCIALE
-                )
-
-            Return RedirectToAction("Index")
-        Catch
-            Return View()
-        End Try
-
-    End Function
 
 
     'delete action
@@ -62,36 +37,101 @@ Public Class HomeController
     End Function
 
     ' Edit Get
-    Function Edit(id As Integer) As ActionResult
+    Function Edit(Optional id As Integer = 0) As ActionResult
+        Dim fournisseur = New FournisseurEditModel
+        'chargement dropdownlist
+        Dim TypeList = FOURNISSEUR_SELECT(choix:="SELECT_TYPE").AsEnumerable.Select(Function(x) New SelectListItem() With {
+        .Value = x("ID").ToString,
+        .Text = x("libelle")
+        }).ToList()
+        'chargement du dropdownlist
+        fournisseur.TYPE_FOURNISSEUR = New SelectList(TypeList, "Value", "Text")
 
-        Dim fournisseur = New FournisseurModel()
-        fournisseur = FOURNISSEUR_SELECT(choix:="GETBYID", id:=id).AsEnumerable.Select(Function(x) New FournisseurModel With {
-        .ID = x("ID"),
-        .ADRESSE_SOCIALE = x("ADRESSE_SOCIALE"),
-        .TYPE_FOURNISSEUR = x("TYPE_FOURNISSEUR"),
-        .NOM = x("NOM"),
-        .NOM_ENTREPRISE = x("NOM_ENTREPRISE"),
-        .PRENOM = x("PRENOM"),
-        .TELEPHONE = x("TELEPHONE")
-        }).Where(Function(x) x.ID = id).FirstOrDefault()
+        'verifier si c est l'ajout ou l'edit, si c est l edit charge les data avec le with
+        If id > 0 Then
+            For Each x As DataRow In FOURNISSEUR_SELECT(choix:="GETBYID", id:=id).Rows
+                With fournisseur
+                    .ID = x("ID")
+                    .ADRESSE_SOCIALE = x("ADRESSE_SOCIALE")
+                    .TYPE_ID = x("TYPE_FOURNISSEUR").ToString
+                    .NOM = x("NOM")
+                    .NOM_ENTREPRISE = x("NOM_ENTREPRISE")
+                    .PRENOM = x("PRENOM")
+                    .TELEPHONE = x("TELEPHONE")
+                End With
+            Next
+
+
+
+        End If
 
         Return View(fournisseur)
 
+
     End Function
 
+    ' Edit Get
+
+
+    Function Modal(Optional id As Integer = 0) As ActionResult
+        Dim fournisseur = New FournisseurEditModel
+        'chargement dropdownlist
+        Dim TypeList = FOURNISSEUR_SELECT(choix:="SELECT_TYPE").AsEnumerable.Select(Function(x) New SelectListItem() With {
+        .Value = x("ID").ToString,
+        .Text = x("libelle")
+        }).ToList()
+        'chargement du dropdownlist
+        fournisseur.TYPE_FOURNISSEUR = New SelectList(TypeList, "Value", "Text")
+
+        'verifier si c est l'ajout ou l'edit, si c est l edit charge les data avec le with
+        If id > 0 Then
+            For Each x As DataRow In FOURNISSEUR_SELECT(choix:="GETBYID", id:=id).Rows
+                With fournisseur
+                    .ID = x("ID")
+                    .ADRESSE_SOCIALE = x("ADRESSE_SOCIALE")
+                    .TYPE_ID = x("TYPE_FOURNISSEUR").ToString
+                    .NOM = x("NOM")
+                    .NOM_ENTREPRISE = x("NOM_ENTREPRISE")
+                    .PRENOM = x("PRENOM")
+                    .TELEPHONE = x("TELEPHONE")
+                End With
+            Next
+
+
+
+        End If
+
+        Return PartialView("_Modal", fournisseur)
+
+
+    End Function
     ' Edit action post
     <AcceptVerbs(HttpVerbs.Post)>
-    Function Edit(fournisseur As FournisseurModel) As ActionResult
-        FOURNISSEUR_INSERT(
-            choix:="UPDATE",
-            id:=fournisseur.ID,
-            adresse:=fournisseur.ADRESSE_SOCIALE,
-            type:=fournisseur.TYPE_FOURNISSEUR,
-            nom:=fournisseur.NOM,
-            entreprise:=fournisseur.NOM_ENTREPRISE,
-            prenom:=fournisseur.PRENOM,
-            telephone:=fournisseur.TELEPHONE
-        )
+    Function Edit(fournisseur As FournisseurEditModel) As ActionResult
+        If fournisseur.ID = 0 Then
+            FOURNISSEUR_INSERT(
+                choix:="INSERT",
+                id:=fournisseur.ID,
+                adresse:=fournisseur.ADRESSE_SOCIALE,
+                type:=fournisseur.TYPE_ID,
+                nom:=fournisseur.NOM,
+                entreprise:=fournisseur.NOM_ENTREPRISE,
+                prenom:=fournisseur.PRENOM,
+                telephone:=fournisseur.TELEPHONE)
+
+        Else
+            FOURNISSEUR_INSERT(
+                choix:="UPDATE",
+                id:=fournisseur.ID,
+                adresse:=fournisseur.ADRESSE_SOCIALE,
+                type:=fournisseur.TYPE_ID,
+                nom:=fournisseur.NOM,
+                entreprise:=fournisseur.NOM_ENTREPRISE,
+                prenom:=fournisseur.PRENOM,
+                telephone:=fournisseur.TELEPHONE
+            )
+        End If
+
 
         Return RedirectToAction("Index")
     End Function
