@@ -1,77 +1,96 @@
-﻿@ModelType IEnumerable(Of FournisseurModel)
-
+﻿@ModelType Fourniseur.ViewFournisseurModel
 @Code
-    ViewData("Title") = "Home Page"
+    ViewData("Title") = "Index"
 End Code
+
+
+
+
 
 <div class="container">
     <h4 class="text-center">Liste item</h4>
-    @Html.ActionLink("Ajouter", "Edit", "Home", New With {.class = "btn btn-success glyphicon glyphicon-plus "})
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" id="btn_submit">
-       <i class="glyphicon glyphicon-plus"></i>
+    @*@Html.ActionLink("Ajouter", "Edit", "Home", New With {.class = "btn btn-success glyphicon glyphicon-plus "})*@
+    <button type="button" class="btn btn-primary" id="btn_submit_add">
+        <i class="glyphicon glyphicon-plus"></i>
         Add
     </button>
-    <div class="row ">
-        <table class="table mt-4">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Type fournisseur</th>
-                    <th scope="col">Adresse Sociale</th>
-                    <th scope="col">Entreprise</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Prenom</th>
-                    <th scope="col">Telephone</th>
-                    <th scope="col">Editer</th>
-                    <th scope="col">Supprimer</th>
-                </tr>
-            </thead>
-            <tbody>
-               @For Each item In Model
-                @<tr>
-                    <td>@item.TYPE_FOURNISSEUR</td>
-                    <td>@item.ADRESSE_SOCIALE</td>
-                    <td>@item.NOM_ENTREPRISE</td>
-                    <td>@item.NOM</td>
-                    <td>@item.PRENOM</td>
-                    <td>@item.TELEPHONE</td>
-                @*@code 
-                    MsgBox(item.ID.ToString)
-                End Code*@
-
-                   <td>@Html.ActionLink("Editer", "Edit", "Home", New With {.id = item.ID}, New With {.class = "btn btn-warning glyphicon glyphicon-pencil"})</td>
-                   <td>@Html.ActionLink("Supprimer", "Delete", "Home", New With {.id = item.ID}, New With {.class = "btn btn-danger glyphicon glyphicon-trash"})</td>
-                </tr>
-                    Next
-               
-            </tbody>
-        </table>
-       
-       
+    <div id="listFournisseurs">
+        @Html.Action("ListeFournisseur", "Home")
     </div>
-    
-    <div id="afficheModal">
+    <span id="message">
 
-    </div>
-   @*@Html.Action("Edit", "Home")*@
-               
+    </span>
+   
+</div>
+<div id="afficheModal">
+
+</div>
+
+@*@Scripts.Render("~/bundles/jqueryval")*@
 @Section Scripts
-    @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        $('#btn_submit').on('click', function () {
-            //alert($('#ID').val());
-            $.ajax({
-                url: "@Url.Action("Modal", "Home")",
 
-                type: 'GET',
+    @*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-                //data: { id: $('#ID').val() }
-            }).done(function (result) {
-                alert(result);
-                $('#afficheModal').html(result);
-                $('#staticBackdrop').modal({ backdrop: 'static' }, 'show');
-            });
-        });
+    <script type="text/javascript">
+     function success(data) {
 
-      
+         if (data.success) {
+             $('#staticBackdrop').modal('hide');
+             ListeFournisseur();
+             $('#message').html('');
+             $('#message').html(data.msg).css('color','green');
+         } else {
+             $('#message').html('');
+             $('#message').html(data.msg).css('color', 'red');
+         }
+
+     };
+
+
+     $(document).on('click', '#btn_submit_add', function () {
+         chargerInfo(0);
+     })
+
+     $(document).on('click', '#btn_submit', function () {
+         chargerInfo($(this).attr('data-id'));
+        })
+
+
+     function chargerInfo(id) {
+         $.ajax({
+             url: '@Url.Action("Edit", "Home")',
+             type: 'GET',
+             data: { idFournisseur: id },
+             success: function (result) {
+                 $('#afficheModal').html('');
+                 $('#afficheModal').html(result);
+                 $('#staticBackdrop').modal({ backdrop: 'static' }, 'show');
+             }
+
+         });
+     }
+
+     function ListeFournisseur() {
+         $.ajax({
+             url: '@Url.Action("ListeFournisseur", "Home")',
+             type: 'GET',
+             success: function (result) {
+                 
+                 $('#listFournisseurs').html('');
+                 $('#listFournisseurs').html(result);
+
+             }
+
+         });
+     }
+
+
+
+
+       
+
     </script>
 End Section

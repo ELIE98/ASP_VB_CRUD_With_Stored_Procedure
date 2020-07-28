@@ -1,4 +1,8 @@
 ﻿Imports System.ComponentModel.DataAnnotations
+Public Class ViewFournisseurModel
+
+
+End Class
 
 Public Class FournisseurModel
     Public Property ID As Integer

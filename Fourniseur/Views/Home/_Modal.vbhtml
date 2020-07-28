@@ -1,99 +1,90 @@
-﻿@ModelType Fourniseur.FournisseurEditModel 
+﻿@ModelType Fourniseur.FournisseurEditModel
+@*@Scripts.Render("~/bundles/jquery")*@
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div id="staticBackdrop" role="dialog" class="modal fade bs-example-modal-md" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                a          <h5 class="modal-title" id="staticBackdropLabel">add or Edit</h5>
+                <h5 class="modal-title text-center" id="">Insertion Form</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-               @Using (Ajax.BeginForm("Edit", "Home", New AjaxOptions With {.OnSuccess = "success", .OnFailure = "Error", .OnComplete = "Completed", .HttpMethod = "POST"}))
-                @Html.AntiForgeryToken
+                <div class="container">
+                    @Using (Ajax.BeginForm("Post_Add_Edit", "Home", New AjaxOptions() With {.InsertionMode = InsertionMode.Replace, .UpdateTargetId = "", .HttpMethod = "POST", .OnSuccess = "success(data);"}, New With {.role = "form"}))
 
-                @<div class="form-horizontal">
-                    <h4>FournisseurModel</h4>
-                    <hr />
+                        @Html.AntiForgeryToken
 
-                    @Html.HiddenFor(Function(model) model.ID)
+                        @<div class="form">
+                            <h4 class="text-center">FournisseurModel</h4>
+                            <hr />
 
-                    <div class="form-group">
-                        @Html.LabelFor(Function(model) model.TYPE_FOURNISSEUR, htmlAttributes:=New With {.class = "control-label col-md-2"})
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(Function(model) model.TYPE_ID, Model.TYPE_FOURNISSEUR, "--", New With {.class = "form-control"})
-                            @Html.ValidationMessageFor(Function(model) model.TYPE_ID, "", New With {.class = "text-danger"})
+                            @Html.HiddenFor(Function(model) model.ID)
+
+                            <div class="form-group">
+                                @Html.LabelFor(Function(model) model.TYPE_FOURNISSEUR, htmlAttributes:=New With {.class = "control-label col-md-6"})
+                                <div class="col-md-6">
+                                    @Html.DropDownListFor(Function(model) model.TYPE_ID, Model.TYPE_FOURNISSEUR, "Select type", New With {.class = "form-control"})
+                                    @Html.ValidationMessageFor(Function(model) model.TYPE_ID, "", New With {.class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(Function(model) model.ADRESSE_SOCIALE, htmlAttributes:=New With {.class = "control-label col-md-6"})
+                                <div class="col-md-6">
+                                    @Html.EditorFor(Function(model) model.ADRESSE_SOCIALE, New With {.htmlAttributes = New With {.class = "form-control"}})
+                                    @Html.ValidationMessageFor(Function(model) model.ADRESSE_SOCIALE, "", New With {.class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(Function(model) model.NOM_ENTREPRISE, htmlAttributes:=New With {.class = "control-label col-md-6"})
+                                <div class="col-md-6">
+                                    @Html.EditorFor(Function(model) model.NOM_ENTREPRISE, New With {.htmlAttributes = New With {.class = "form-control"}})
+                                    @Html.ValidationMessageFor(Function(model) model.NOM_ENTREPRISE, "", New With {.class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(Function(model) model.NOM, htmlAttributes:=New With {.class = "control-label col-md-6"})
+                                <div class="col-md-6">
+                                    @Html.EditorFor(Function(model) model.NOM, New With {.htmlAttributes = New With {.class = "form-control"}})
+                                    @Html.ValidationMessageFor(Function(model) model.NOM, "", New With {.class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(Function(model) model.PRENOM, htmlAttributes:=New With {.class = "control-label col-md-6"})
+                                <div class="col-md-6">
+                                    @Html.EditorFor(Function(model) model.PRENOM, New With {.htmlAttributes = New With {.class = "form-control"}})
+                                    @Html.ValidationMessageFor(Function(model) model.PRENOM, "", New With {.class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(Function(model) model.TELEPHONE, htmlAttributes:=New With {.class = "control-label col-md-6"})
+                                <div class="col-md-6">
+                                    @Html.EditorFor(Function(model) model.TELEPHONE, New With {.htmlAttributes = New With {.class = "form-control"}})
+                                    @Html.ValidationMessageFor(Function(model) model.TELEPHONE, "", New With {.class = "text-danger"})
+                                </div>
+                            </div>
+
+
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(Function(model) model.ADRESSE_SOCIALE, htmlAttributes:=New With {.class = "control-label col-md-2"})
-                        <div class="col-md-10">
-                            @Html.EditorFor(Function(model) model.ADRESSE_SOCIALE, New With {.htmlAttributes = New With {.class = "form-control"}})
-                            @Html.ValidationMessageFor(Function(model) model.ADRESSE_SOCIALE, "", New With {.class = "text-danger"})
-                        </div>
-                    </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(Function(model) model.NOM_ENTREPRISE, htmlAttributes:=New With {.class = "control-label col-md-2"})
-                        <div class="col-md-10">
-                            @Html.EditorFor(Function(model) model.NOM_ENTREPRISE, New With {.htmlAttributes = New With {.class = "form-control"}})
-                            @Html.ValidationMessageFor(Function(model) model.NOM_ENTREPRISE, "", New With {.class = "text-danger"})
+                        @<div Class="modal-footer">
+                            <Button type="button" Class="btn btn-danger " data-dismiss="modal"><i Class="glyphicon glyphicon-remove"></i> Close</Button>
+                            <Button type="submit" Class="btn btn-success"><i Class="glyphicon glyphicon-ok-sign"></i> Send</Button>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(Function(model) model.NOM, htmlAttributes:=New With {.class = "control-label col-md-2"})
-                        <div class="col-md-10">
-                            @Html.EditorFor(Function(model) model.NOM, New With {.htmlAttributes = New With {.class = "form-control"}})
-                            @Html.ValidationMessageFor(Function(model) model.NOM, "", New With {.class = "text-danger"})
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(Function(model) model.PRENOM, htmlAttributes:=New With {.class = "control-label col-md-2"})
-                        <div class="col-md-10">
-                            @Html.EditorFor(Function(model) model.PRENOM, New With {.htmlAttributes = New With {.class = "form-control"}})
-                            @Html.ValidationMessageFor(Function(model) model.PRENOM, "", New With {.class = "text-danger"})
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(Function(model) model.TELEPHONE, htmlAttributes:=New With {.class = "control-label col-md-2"})
-                        <div class="col-md-10">
-                            @Html.EditorFor(Function(model) model.TELEPHONE, New With {.htmlAttributes = New With {.class = "form-control"}})
-                            @Html.ValidationMessageFor(Function(model) model.TELEPHONE, "", New With {.class = "text-danger"})
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Save" class="btn btn-success" />
-                        </div>
-                    </div>
+                    End Using
                 </div>
-               End Using
-
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                     
         </div>
     </div>
 </div>
-<script>
-    function success(response) {
-        alert(SUCCES);
-    };
-
-
-    function Error(response) {
-        alert(ERROR);
-    };
-
-    function Completed() {
-
-         RedirectToAction("Index");
-    };
-</script>

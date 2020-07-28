@@ -41,8 +41,13 @@
         @Scripts.Render("~/bundles/jquery")
        
         @Scripts.Render("~/bundles/bootstrap")
-        
-        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+    @*<script src="~/Scripts/jquery.validate.min.js"></script>*@
+    @*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+  
+    @*<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+
+
     @RenderSection("scripts", required:=False)
 </body>
 </html>
