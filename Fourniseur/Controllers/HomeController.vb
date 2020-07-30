@@ -3,6 +3,7 @@ Imports System.Collections.Generic
 
 Public Class HomeController
     Inherits System.Web.Mvc.Controller
+
     Function ListeFournisseur() As ActionResult
         Dim fournisseurs = New List(Of FournisseurModel)
         fournisseurs = FOURNISSEUR_SELECT(choix:="ALL").AsEnumerable.Select(Function(x) New FournisseurModel With {

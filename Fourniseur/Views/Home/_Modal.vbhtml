@@ -9,7 +9,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="">Insertion Form</h5>
+                <h4 class="text-left">Ajoutez un Fournisseur</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -21,7 +21,7 @@
                         @Html.AntiForgeryToken
 
                         @<div class="form">
-                            <h4 class="text-center">FournisseurModel</h4>
+                            
                             <hr />
 
                             @Html.HiddenFor(Function(model) model.ID)

@@ -28,12 +28,17 @@
                         End Code*@
                     <td>
                         <button type="button" class="btn btn-primary " id="btn_submit" data-id="@item.ID">
-                            <i class="glyphicon glyphicon-plus"></i>
+                            <i class="glyphicon glyphicon-pencil"></i>
                             Update
                         </button>
                     </td>
-                    @*<td>@Ajax.ActionLink("Editer", "Modal", "Home", New With {.id = item.ID}, New With {.class = "btn btn-warning glyphicon glyphicon-pencil"})</td>*@
-                    <td>@Html.ActionLink("Supprimer", "Delete", "Home", New With {.id = item.ID}, New With {.class = "btn btn-danger glyphicon glyphicon-trash"})</td>
+                     <td>
+                         <button type="button" class="btn btn-danger " id="btn_delete" data-id="@item.ID" >
+                             <i class="glyphicon glyphicon-remove"></i>
+                             Delete
+                         </button>
+                     </td>
+                    @*<td>@Html.ActionLink("Supprimer", "Delete", "Home", New With {.id = item.ID}, New With {.class = "btn btn-danger glyphicon glyphicon-trash"})</td>*@
                 </tr>
             Next
 

@@ -1,7 +1,6 @@
-C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\roslyn\VBCSCompiler.exe
 C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\roslyn\csc.exe
 C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
 C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\roslyn\Microsoft.CodeAnalysis.dll
 C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\roslyn\Microsoft.CSharp.Core.targets
@@ -9,6 +8,7 @@ C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseu
 C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\roslyn\System.Collections.Immutable.dll
 C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\roslyn\System.Reflection.Metadata.dll
 C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\roslyn\vbc.exe
+C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\roslyn\VBCSCompiler.exe
 C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\Fourniseur.dll.config
 C:\Users\CHK-DEV07-PC\documents\visual studio 2015\Projects\Fourniseur\Fourniseur\bin\Fourniseur.dll

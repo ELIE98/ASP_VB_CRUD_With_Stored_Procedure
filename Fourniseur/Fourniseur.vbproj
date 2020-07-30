@@ -260,6 +260,8 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
@@ -290,6 +292,7 @@
     <Content Include="Views\Home\_forms.vbhtml" />
     <Content Include="Views\Home\_Modal.vbhtml" />
     <Content Include="Views\Home\ListeFournisseur.vbhtml" />
+    <Content Include="Views\Home\DeleteModal.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

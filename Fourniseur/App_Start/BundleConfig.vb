@@ -17,6 +17,7 @@ Public Module BundleConfig
 
         bundles.Add(New ScriptBundle("~/bundles/bootstrap").Include(
                   "~/Scripts/bootstrap.js",
+                  "~/Scripts/bootbox.js",
                   "~/Scripts/respond.js"))
 
         bundles.Add(New StyleBundle("~/Content/css").Include(
