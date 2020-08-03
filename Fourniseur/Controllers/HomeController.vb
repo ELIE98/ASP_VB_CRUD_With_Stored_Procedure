@@ -47,7 +47,8 @@ Public Class HomeController
         .Value = x("ID").ToString,
         .Text = x("libelle")
         }).ToList()
-
+        'chargement du dropdownlist
+        fournisseur.TYPE_FOURNISSEUR = New SelectList(TypeList, "Value", "Text")
 
         'verifier si c est l'ajout ou l'edit, si c est l edit charge les data avec le with
         If idFournisseur > 0 Then
@@ -65,8 +66,7 @@ Public Class HomeController
 
             Return PartialView("_FormsParticulier", fournisseur)
         End If
-        'chargement du dropdownlist
-        fournisseur.TYPE_FOURNISSEUR = New SelectList(TypeList, "Value", "Text")
+
         Return PartialView("_FormsParticulier", fournisseur)
     End Function
 
