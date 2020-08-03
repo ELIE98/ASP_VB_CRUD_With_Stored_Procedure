@@ -31,15 +31,15 @@ End Code
 
 </div>
 
-@*@Scripts.Render("~/bundles/jqueryval")*@
+
 @Section Scripts
 
-    @*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
    
     <script type="text/javascript">
+
         function success(data) {
 
             if (data.success) {
@@ -56,31 +56,29 @@ End Code
         };
 
 
-     $(document).on('click', '#btn_submit_add', function () {
-         chargerInfo(0);
-     })
-     $(document).on('click', '#btn_delete', function () {
-         var id = $(this).attr('data-id');
-         //alert(id);
-         bootbox.confirm("Voulez-vous supprimer l item ?", function(result) {
-             if (result) {
-                 $.ajax({
-                     data:{id:id},
-                     url: '/Home/Delete/',                    
-                     method: 'GET',
-                     success: function() {
-                         $(this).parents("tr").remove();
-                         location.reload();
-                     }
-                 });
-             }
-         });
-     })
-     
+    $(document).on('click', '#btn_submit_add', function () {
 
-     //$(document).on('click', '#btn_delete', function () {
-     //    chargerInfo($(this).attr('data-id'));
-     //})
+            chargerInfo(0);
+    })
+
+    $(document).on('click', '#btn_delete', function () {
+        var id = $(this).attr('data-id');
+
+        bootbox.confirm("Voulez-vous supprimer l'élément ayant l'ID : " + id + " ?", function (result) {
+            if (result) {
+                $.ajax({
+                    data:{id:id},
+                    url: '/Home/Delete/',
+                    method: 'GET',
+                    success: function() {
+                        $(this).parents("tr").remove();
+                        location.reload();
+                    }
+                });
+            }
+        });
+    })
+
 
      $(document).on('click', '#btn_submit', function () {
          chargerInfo($(this).attr('data-id'));
@@ -90,9 +88,11 @@ End Code
      function chargerInfo(id) {
          $.ajax({
              url: '@Url.Action("Edit", "Home")',
+             //url: '/Home/Modal/',
              type: 'GET',
              data: { idFournisseur: id },
              success: function (result) {
+
                  $('#afficheModal').html('');
                  $('#afficheModal').html(result);
                  $('#staticBackdrop').modal({ backdrop: 'static' }, 'show');
@@ -115,6 +115,72 @@ End Code
          });
      }
 
+        //choix du formulaire a ramener
 
+        function change(params) {
+            var type = params.value;
+            var id = 0;
+            
+            if (type =="1") {
+                $.ajax({
+                    //url: '@Url.Action("ParticulierAction", "Home")',
+                    //url: '/Home/ParticulierAction/',
+                    type: 'GET',
+                    data: { idFournisseur: id },
+                    success: function (result) {
+
+                        $('#afficheModal').html('');
+                        $('#afficheModal').html(result);
+                        $('#staticBackdrop').modal({ backdrop: 'static' }, 'show');
+                    }
+
+                });
+            } 
+            else (type =="2")
+            {
+                $.ajax({
+                    url: '@Url.Action("EntrepriseAction", "Home")',
+                    //url: '/Home/EntrepriseAction/',
+                    type: 'GET',
+                    data: { idFournisseur: id },
+                    success: function (result) {
+
+                        $('#afficheModal').html('');
+                        $('#afficheModal').html(result);
+                        $('#staticBackdrop').modal({ backdrop: 'static' }, 'show');
+                    }
+
+                });
+            }
+        };
+
+        $(document).on('click', '#submit', function () {
+            var dropValue = $("#dropdowntype").val();
+            var datas = $("#form").serialize();
+            //alert(typeof(dropValue));
+            if (dropValue == "1") {
+                $.ajax({                 
+                    url: '/Home/Post_Add_Edit/',
+                    type: 'POST',
+                    data: datas,
+                    success: function () {
+                        location.reload();                      
+                    }
+
+                });
+            }
+            else if(dropValue == "2")
+            {
+                $.ajax({
+                    url: '/Home/Post_Add_Edit/',
+                    type: 'POST',
+                    data: datas,
+                    success: function () {
+                        location.reload();
+                    }
+
+                });
+            }
+        })
 </script>
 End Section

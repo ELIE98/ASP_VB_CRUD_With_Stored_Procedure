@@ -29,7 +29,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(Function(model) model.TYPE_FOURNISSEUR, htmlAttributes:=New With {.class = "control-label col-md-6"})
                                 <div class="col-md-6">
-                                    @Html.DropDownListFor(Function(model) model.TYPE_ID, Model.TYPE_FOURNISSEUR, "Select type", New With {.class = "form-control"})
+                                    @Html.DropDownListFor(Function(model) model.TYPE_ID, Model.TYPE_FOURNISSEUR, "select", New With {.class = "form-control", .onchange = "change(this);"})
                                     @Html.ValidationMessageFor(Function(model) model.TYPE_ID, "", New With {.class = "text-danger"})
                                 </div>
                             </div>

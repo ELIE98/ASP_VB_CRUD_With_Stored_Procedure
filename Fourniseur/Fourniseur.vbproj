@@ -293,6 +293,8 @@
     <Content Include="Views\Home\_Modal.vbhtml" />
     <Content Include="Views\Home\ListeFournisseur.vbhtml" />
     <Content Include="Views\Home\DeleteModal.vbhtml" />
+    <Content Include="Views\Home\_FormsParticulier.vbhtml" />
+    <Content Include="Views\Home\_FormsEntreprise.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
