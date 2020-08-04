@@ -72,7 +72,7 @@ End Code
                     method: 'GET',
                     success: function() {
                         $(this).parents("tr").remove();
-                        location.reload();
+                        $("#listAffichage").load(location.href + " #listAffichage");
                     }
                 });
             }
@@ -88,7 +88,7 @@ End Code
      function chargerInfo(id) {
          $.ajax({
              url: '@Url.Action("Edit", "Home")',
-             //url: '/Home/Modal/',
+            
              type: 'GET',
              data: { idFournisseur: id },
              success: function (result) {
@@ -123,15 +123,15 @@ End Code
             
             if (type =="1") {
                 $.ajax({
-                    //url: '@Url.Action("ParticulierAction", "Home")',
-                    //url: '/Home/ParticulierAction/',
+                    url: '@Url.Action("ParticulierAction", "Home")',
+                   
                     type: 'GET',
                     data: { idFournisseur: id },
                     success: function (result) {
 
-                        $('#afficheModal').html('');
-                        $('#afficheModal').html(result);
-                        $('#staticBackdrop').modal({ backdrop: 'static' }, 'show');
+                        
+                        $('#modalContent').html(result);
+                        
                     }
 
                 });
@@ -140,14 +140,14 @@ End Code
             {
                 $.ajax({
                     url: '@Url.Action("EntrepriseAction", "Home")',
-                    //url: '/Home/EntrepriseAction/',
+                   
                     type: 'GET',
                     data: { idFournisseur: id },
                     success: function (result) {
 
-                        $('#afficheModal').html('');
-                        $('#afficheModal').html(result);
-                        $('#staticBackdrop').modal({ backdrop: 'static' }, 'show');
+                        
+                        $('#modalContent').html(result);
+                       
                     }
 
                 });
@@ -164,7 +164,7 @@ End Code
                     type: 'POST',
                     data: datas,
                     success: function () {
-                        location.reload();                      
+                        $("#listAffichage").load(location.href + " #listAffichage")
                     }
 
                 });
@@ -176,7 +176,7 @@ End Code
                     type: 'POST',
                     data: datas,
                     success: function () {
-                        location.reload();
+                        $("#listAffichage").load(location.href + " #listAffichage")
                     }
 
                 });

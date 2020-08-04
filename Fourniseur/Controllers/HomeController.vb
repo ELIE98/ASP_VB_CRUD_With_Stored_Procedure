@@ -64,10 +64,10 @@ Public Class HomeController
                 End With
             Next
 
-            Return PartialView("_FormsParticulier", fournisseur)
+            Return PartialView("_Modal")
         End If
 
-        Return PartialView("_FormsParticulier", fournisseur)
+        Return PartialView("_Modal")
     End Function
 
     'single forms actions
@@ -81,21 +81,22 @@ Public Class HomeController
         Dim TypeList = FOURNISSEUR_SELECT(choix:="SELECT_TYPE").AsEnumerable.Select(Function(x) New SelectListItem() With {
         .Value = x("ID").ToString,
         .Text = x("libelle")
-        }).Where(Function(x) x.Value = "2").ToList
+        }).ToList
         'chargement du dropdownlist
-        fournisseur.TYPE_FOURNISSEUR = New SelectList(TypeList, "Value", "Text")
+        
         entreprise.TYPE_FOURNISSEUR = New SelectList(TypeList, "Value", "Text")
+        entreprise.TYPE_ID = "2"
         'verifier si c est l'ajout ou l'edit, si c est l edit charge les data avec le with
         If idFournisseur > 0 Then
             For Each x As DataRow In FOURNISSEUR_SELECT(choix:="GETBYID", id:=idFournisseur).Rows
                 With fournisseur
                     .ID = If(IsDBNull(x("ID")), 0, x("ID"))
-                    .ADRESSE_SOCIALE = x("ADRESSE_SOCIALE")
-                    .TYPE_ID = x("TYPE_FOURNISSEUR").ToString
-                    .NOM = x("NOM")
-                    .NOM_ENTREPRISE = x("NOM_ENTREPRISE")
-                    .PRENOM = x("PRENOM")
-                    .TELEPHONE = x("TELEPHONE")
+                    '.ADRESSE_SOCIALE = If(IsDBNull(x("ADRESSE_SOCIALE")), "NEANT", x("ADRESSE_SOCIALE"))
+                    .TYPE_ID = If(IsDBNull(x("TYPE_FOURNISSEUR").ToString), "NEANT", x("TYPE_FOURNISSEUR"))
+                    .NOM = If(IsDBNull(x("NOM")), "NEANT", x("NOM"))
+                    '.NOM_ENTREPRISE = If(IsDBNull(x("NOM_ENTREPRISE")), "NEANT", x("NOM_ENTREPRISE"))
+                    .PRENOM = If(IsDBNull(x("PRENOM")), "NEANT", x("PRENOM"))
+                    .TELEPHONE = If(IsDBNull(x("TELEPHONE")), "NEANT", x("TELEPHONE"))
                 End With
             Next
 
@@ -123,21 +124,23 @@ Public Class HomeController
         Dim TypeList = FOURNISSEUR_SELECT(choix:="SELECT_TYPE").AsEnumerable.Select(Function(x) New SelectListItem() With {
         .Value = x("ID").ToString,
         .Text = x("libelle")
-        }).Where(Function(x) x.Value = "1").ToList
+        }).ToList
         'chargement du dropdownlist
         fournisseur.TYPE_FOURNISSEUR = New SelectList(TypeList, "Value", "Text")
         particulier.TYPE_FOURNISSEUR = New SelectList(TypeList, "Value", "Text")
+        particulier.TYPE_ID = "1"
+
         'verifier si c est l'ajout ou l'edit, si c est l edit charge les data avec le with
         If idFournisseur > 0 Then
             For Each x As DataRow In FOURNISSEUR_SELECT(choix:="GETBYID", id:=idFournisseur).Rows
                 With fournisseur
                     .ID = If(IsDBNull(x("ID")), 0, x("ID"))
-                    .ADRESSE_SOCIALE = x("ADRESSE_SOCIALE")
-                    .TYPE_ID = x("TYPE_FOURNISSEUR").ToString
-                    .NOM = x("NOM")
-                    .NOM_ENTREPRISE = x("NOM_ENTREPRISE")
-                    .PRENOM = x("PRENOM")
-                    .TELEPHONE = x("TELEPHONE")
+                    .ADRESSE_SOCIALE = If(IsDBNull(x("ADRESSE_SOCIALE")), "NEANT", x("ADRESSE_SOCIALE"))
+                    '.TYPE_FOURNISSEUR = If(IsDBNull(x("LIBELLE")), "NEANT", x("LIBELLE"))
+                    .NOM = If(IsDBNull(x("NOM")), "NEANT", x("NOM"))
+                    .NOM_ENTREPRISE = If(IsDBNull(x("NOM_ENTREPRISE")), "NEANT", x("NOM_ENTREPRISE"))
+                    .PRENOM = If(IsDBNull(x("PRENOM")), "NEANT", x("PRENOM"))
+                    .TELEPHONE = If(IsDBNull(x("TELEPHONE")), "NEANT", x("TELEPHONE"))
                 End With
             Next
 
@@ -146,12 +149,12 @@ Public Class HomeController
 
             For Each x As DataRow In FOURNISSEUR_SELECT(choix:="GETBYID", id:=idFournisseur).Rows
                     With particulier
-                        .ID = If(IsDBNull(x("ID")), 0, x("ID"))
-                        .TYPE_ID = x("TYPE_FOURNISSEUR").ToString
-                        .NOM = x("NOM")
-                        .PRENOM = x("PRENOM")
-                        .TELEPHONE = x("TELEPHONE")
-                    End With
+                    .ID = If(IsDBNull(x("ID")), 0, x("ID"))
+                    .TYPE_ID = x("TYPE_FOURNISSEUR").ToString
+                    .NOM = If(IsDBNull(x("NOM")), "NEANT", x("NOM"))
+                    .PRENOM = If(IsDBNull(x("PRENOM")), "NEANT", x("PRENOM"))
+                    .TELEPHONE = If(IsDBNull(x("TELEPHONE")), "NEANT", x("TELEPHONE"))
+                End With
                 Next
                 Return PartialView("_FormsParticulier", particulier)
 

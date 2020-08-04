@@ -1,6 +1,6 @@
 ﻿@ModelType IEnumerable(Of Fourniseur.FournisseurModel)
 
-<div class="row ">
+<div class="row " id="listAffichage">
     <table class="table mt-4">
         <thead class="thead-dark">
             <tr>
